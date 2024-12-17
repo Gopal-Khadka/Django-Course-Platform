@@ -1,4 +1,12 @@
 asgiref==3.8.1
+certifi==2024.12.14
+cloudinary==1.41.0
 Django==5.1.4
+pillow==11.0.0
+psycopg==3.2.3
+psycopg-binary==3.2.3
 python-decouple==3.8
+six==1.17.0
 sqlparse==0.5.3
+typing_extensions==4.12.2
+urllib3==2.2.3
