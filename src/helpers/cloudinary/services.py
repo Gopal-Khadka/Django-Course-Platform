@@ -1,3 +1,7 @@
+from django.conf import settings
+from django.template.loader import get_template
+
+
 def get_cloudinary_image_object(
     instance, field_name="thumbnail", as_html=False, width=200
 ):
@@ -40,8 +44,11 @@ def get_cloudinary_video_object(
     }
     if width:
         video_options["width"] = width
+    url = video_obj.build_url(**video_options)
     if as_html:
         # refer to cloudinary docs
-        return video_obj.video(**video_options)
-    url = video_obj.build_url(**video_options)
+        template_name = "videos/embed.html"
+        cloud_name = settings.CLOUDINARY_CLOUD_NAME
+        tmpl = get_template(template_name)
+        return tmpl.render({"video_url": url, "cloud_name": cloud_name})
     return url

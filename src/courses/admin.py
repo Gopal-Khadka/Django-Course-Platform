@@ -19,7 +19,7 @@ class LessonInline(admin.StackedInline):
     display_image.short_description = "Current Image"
 
     def display_video(self, instance, *args, **kwargs):
-        url = helpers.get_cloudinary_video_object(
+        res = helpers.get_cloudinary_video_object(
             instance,
             field_name="video",
             width=500,
@@ -27,7 +27,7 @@ class LessonInline(admin.StackedInline):
             controls=True,
             autoplay=True,
         )
-        return format_html(f"{url}")
+        return format_html(f"{res}")
 
     display_video.short_description = "Current VIdeo"
 
