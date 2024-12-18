@@ -19,9 +19,11 @@ def get_cloudinary_video_object(
     field_name="video",
     as_html=False,
     width=None,
-    sign_url=False, # for private videos
+    sign_url=False,  # for private videos
     fetch_format="auto",
     quality="auto",
+    controls=True,
+    autoplay=True,
 ):
     if not hasattr(instance, field_name):
         return ""
@@ -31,7 +33,10 @@ def get_cloudinary_video_object(
     video_options = {
         "sign_url": sign_url,
         "fetch_format": fetch_format,
-        quality: quality,
+        "quality": quality,
+        "controls": controls,
+        "autoplay": autoplay,
+        "transformation": [{"radius": 30}],
     }
     if width:
         video_options["width"] = width
