@@ -2,9 +2,11 @@ import cloudinary
 from decouple import config
 
 # Configuration
-CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME",default="")
-CLOUDINARY_API_KEY=config("CLOUDINARY_API_KEY",default="")
-CLOUDINARY_SECRET_KEY=config("CLOUDINARY_SECRET_KEY")
+CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME", default="")
+CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY", default="")
+CLOUDINARY_SECRET_KEY = config("CLOUDINARY_SECRET_KEY")
+
+
 def cloudinary_init():
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,

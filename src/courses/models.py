@@ -95,7 +95,9 @@ class Course(models.Model):
 
     @property
     def admin_image_url(self):
-        url = self.get_image_thumbnail()
+        url = helpers.get_cloudinary_image_object(
+            self, width=300, field_name="thumbnail"
+        )
         return url
 
     @property
@@ -106,13 +108,7 @@ class Course(models.Model):
         return f"{self.title} - Course"
 
     def get_image_thumbnail(self, width=500, as_html=False):
-        if not self.thumbnail:
-            return ""
-        image_options = {"width": width}
-        if as_html:
-            return self.thumbnail.image(**image_options)
-        url = self.thumbnail.build_url(**image_options)
-        return url
+        return helpers.get_cloudinary_image_object(self, width=width, as_html=as_html)
 
 
 class Lesson(models.Model):
@@ -133,6 +129,7 @@ class Lesson(models.Model):
         "video",
         blank=True,
         null=True,
+        type="private",
         resource_type="video",
         public_id_prefix=get_public_id_prefix,
         display_name=get_display_name,
