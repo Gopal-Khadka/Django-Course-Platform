@@ -1,5 +1,15 @@
 # Building a Course Platform
 
+- [Building a Course Platform](#building-a-course-platform)
+  - [Tech Stack](#tech-stack)
+  - [Overview](#overview)
+  - [Static Vs Media vs Local-CDN](#static-vs-media-vs-local-cdn)
+    - [Media Files:](#media-files)
+    - [Static Files:](#static-files)
+    - [Local CDN (e.g., Whitenoise):](#local-cdn-eg-whitenoise)
+    - [Key Differences:](#key-differences)
+
+
 ## Tech Stack
 
 Tech Stack:
@@ -11,7 +21,7 @@ Tech Stack:
 - [tailwind](https://tailwindcss.com)
 - [django-tailwind](https://django-tailwind.readthedocs.io/en/latest/installation.html)
 - [Flowbite](https://flowbite.com)
-- [Cloudinary](https://cld.media/cfe)
+- [Cloudinary](https://cloudinary.com)
 
 ## Overview
 
