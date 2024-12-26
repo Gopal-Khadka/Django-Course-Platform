@@ -98,6 +98,9 @@ class Course(models.Model):
         )
         return url
 
+    def get_absolute_url(self):
+        return self.path
+
     @property
     def path(self):
         return f"/courses/{self.public_id}"
@@ -152,6 +155,9 @@ class Lesson(models.Model):
         if self.public_id is None:
             self.public_id = generate_public_id(self)
         return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return self.path
 
     @property
     def path(self):

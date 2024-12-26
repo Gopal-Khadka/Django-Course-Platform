@@ -16,14 +16,22 @@ def get_course_detail(course_id=None):
     return obj
 
 
+def get_course_lessons(course_obj: Course = None):
+    lessons = Lesson.objects.none()
+    if not isinstance(course_obj, Course):
+        return lessons
+    lessons = course_obj.lesson_set.all()
+    return lessons
+
+
 def get_lesson_detail(course_id=None, lesson_id=None):
     if lesson_id is None:
         return None
     obj = None
     try:
         obj = Lesson.objects.get(
-            course__status=PublishStatus.PUBLISHED,
             course__public_id=course_id,
+            course__status=PublishStatus.PUBLISHED,
             public_id=lesson_id,
             status=PublishStatus.PUBLISHED,
         )

@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Courses List
+{%endblock title%}
+
+
+{%block content%}
+<h2 class="mb-2 text-2xl font-semibold text-gray-900 dark:text-white">Courses List</h2>
+<ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+    {% for item in courses_list%}
+        <li><a href="{{item.get_absolute_url}}">{{item.title}}</a></li>
+    {% endfor %}
+</ul>
+{%endblock content%}
