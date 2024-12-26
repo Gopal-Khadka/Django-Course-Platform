@@ -60,9 +60,7 @@ def get_display_name(instance, *args, **kwargs):
 class Course(models.Model):
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(null=True, blank=True)
-    public_id = models.CharField(
-        max_length=210, blank=True, null=True
-    )  # slug of the title
+    public_id = models.CharField(max_length=210, blank=True, null=True, db_index=True)
     thumbnail = CloudinaryField(
         "thumbnail",
         null=True,

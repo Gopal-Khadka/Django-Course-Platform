@@ -10,7 +10,7 @@ def get_course_detail(course_id=None):
         return None
     obj = None
     try:
-        obj = Course.objects.get(id=course_id, status=PublishStatus.PUBLISHED)
+        obj = Course.objects.get(public_id=course_id, status=PublishStatus.PUBLISHED)
     except:
         pass
     return obj
@@ -23,8 +23,8 @@ def get_lesson_detail(course_id=None, lesson_id=None):
     try:
         obj = Lesson.objects.get(
             course__status=PublishStatus.PUBLISHED,
-            course__id=course_id,
-            id=lesson_id,
+            course__public_id=course_id,
+            public_id=lesson_id,
             status=PublishStatus.PUBLISHED,
         )
     except:
