@@ -22,8 +22,8 @@ def get_lesson_detail(course_id=None, lesson_id=None):
     obj = None
     try:
         obj = Lesson.objects.get(
-            course___status=PublishStatus.PUBLISHED,
-            course___id=course_id,
+            course__status=PublishStatus.PUBLISHED,
+            course__id=course_id,
             id=lesson_id,
             status=PublishStatus.PUBLISHED,
         )
