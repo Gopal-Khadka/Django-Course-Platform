@@ -1,5 +1,6 @@
+import helpers
 from django.shortcuts import render
-from django.http import Http404, JsonResponse
+from django.http import Http404
 
 from . import services
 
@@ -32,7 +33,19 @@ def lesson_detail_view(request, course_id=None, lesson_id=None, *args, **kwargs)
     if lesson_obj is None or course_id is None:
         raise Http404
     # template_name = "courses/purchase-required.html"
+    context = {"lesson_obj": lesson_obj}
     template_name = "courses/lesson-coming-soon.html"
-    if not lesson_obj.is_coming_soon:
+    if not lesson_obj.is_coming_soon and lesson_obj.has_video:
+        # Lesson is already published and Video is available for the lesson
         template_name = "courses/lesson.html"
-    return render(request, template_name, {"lesson_obj": lesson_obj})
+        video_embed_html = helpers.get_cloudinary_video_object(
+            lesson_obj,
+            field_name="video",
+            width=600,
+            as_html=True,
+            autoplay=True,
+            quality="auto:best",
+        )
+        context["video_embed"] = video_embed_html
+
+    return render(request, template_name, context)
