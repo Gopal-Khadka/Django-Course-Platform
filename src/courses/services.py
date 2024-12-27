@@ -33,7 +33,7 @@ def get_lesson_detail(course_id=None, lesson_id=None):
             course__public_id=course_id,
             course__status=PublishStatus.PUBLISHED,
             public_id=lesson_id,
-            status=PublishStatus.PUBLISHED,
+            status__in=[PublishStatus.PUBLISHED, PublishStatus.COMING_SOON],
         )
     except:
         pass

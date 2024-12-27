@@ -5,7 +5,12 @@
   class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
 >
   {% for item in lessons_list%}
-  <li><a href="{{item.get_absolute_url}}">{{item.title}}</a></li>
+  <li>
+    <a href="{{item.get_absolute_url}}">{{item.title}}</a>
+    {% if item.is_coming_soon %}
+     <span class="text-black font-bold"> [Coming Soon]</span>
+    {% endif %}
+  </li>
   {% endfor %}
 </ul>
 {%endblock content%}
