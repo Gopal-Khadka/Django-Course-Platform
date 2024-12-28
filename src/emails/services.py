@@ -60,23 +60,23 @@ def send_verification_email(obj: EmailVerificationEvent):
     return did_send
 
 
-def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str]:
+def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str, Email | None]:
     """Verify the url provided token with generated token in db"""
     qs = EmailVerificationEvent.objects.filter(token=token)
     if not qs.exists() and not qs.count() == 1:
         print("Invalid token")
         # for non-existent token
-        return False, "Invalid Token"
+        return False, "Invalid Token", None
     email_expired = qs.filter(expired=True)
     if email_expired.exists():
         # for expired token
-        return False, "Token is already expired. Try again."
+        return False, "Token is already expired. Try again.", None
 
     max_attempts_reached = qs.filter(attempts__gte=max_attempts)
     if max_attempts_reached.exists():
         # for too many attempts
         # max_attempts_reached.update()
-        return False, "Token expired. Used too many times."
+        return False, "Token expired. Used too many times.", None
 
     # for valid token
     obj = qs.first()
@@ -86,4 +86,5 @@ def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str]:
         obj.expired = True
         obj.expired_at = timezone.now()
     obj.save()
-    return True, "Welcome to the site"
+    email_obj = obj.parent  # Email Model Instance
+    return True, "Welcome to the site", email_obj

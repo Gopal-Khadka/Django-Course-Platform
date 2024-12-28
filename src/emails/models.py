@@ -2,6 +2,8 @@ import uuid
 from django.conf import settings
 from django.db import models
 
+# from courses.models import Course
+
 
 class Email(models.Model):
     email = models.EmailField(
@@ -13,6 +15,11 @@ class Email(models.Model):
 
     def __str__(self):
         return self.email
+
+# model to handle relation between each course and each user
+# class Purchase(models.Model):
+#     email = models.ForeignKey(Email, on_delete=models.SET_NULL, null=True)
+#     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
 
 
 class EmailVerificationEvent(models.Model):
