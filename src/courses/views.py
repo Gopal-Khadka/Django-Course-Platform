@@ -1,6 +1,6 @@
 import helpers
-from django.shortcuts import render
-from django.http import Http404
+from django.shortcuts import render, redirect
+from django.http import Http404, HttpRequest
 
 from . import services
 
@@ -28,10 +28,24 @@ def course_detail_view(request, course_id=None, *args, **kwargs):
     )
 
 
-def lesson_detail_view(request, course_id=None, lesson_id=None, *args, **kwargs):
+def lesson_detail_view(
+    request: HttpRequest, course_id=None, lesson_id=None, *args, **kwargs
+):
     lesson_obj = services.get_lesson_detail(course_id=course_id, lesson_id=lesson_id)
     if lesson_obj is None or course_id is None:
         raise Http404
+
+    # show email-required page for lesson(email-required) to visitors without email
+    email_id_exists = request.session.get("email_id")
+    if lesson_obj.requires_email and not email_id_exists:
+        # store session variable for redirecting vistor user
+        # when new user (no email) tries to acess the course, they cant
+        # but after they click on verify link, they will be redirected to previously visited course lesson
+        request.session["next_url"] = (
+            request.path
+        )  # Refer to email.views.verify_email_token_view function
+        return render(request, "courses/email-required.html")
+
     # template_name = "courses/purchase-required.html"
     context = {"lesson_obj": lesson_obj}
     template_name = "courses/lesson-coming-soon.html"

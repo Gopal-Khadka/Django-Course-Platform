@@ -64,7 +64,6 @@ def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str, Email | None]:
     """Verify the url provided token with generated token in db"""
     qs = EmailVerificationEvent.objects.filter(token=token)
     if not qs.exists() and not qs.count() == 1:
-        print("Invalid token")
         # for non-existent token
         return False, "Invalid Token", None
     email_expired = qs.filter(expired=True)

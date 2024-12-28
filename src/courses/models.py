@@ -176,3 +176,7 @@ class Lesson(models.Model):
     @property
     def has_video(self):
         return self.video is not None
+
+    @property
+    def requires_email(self):
+        return self.course.access == AccessRequirement.EMAIL_REQUIRED
