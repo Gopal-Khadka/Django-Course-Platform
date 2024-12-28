@@ -6,6 +6,7 @@ class Email(models.Model):
         unique=True,
         blank=False,
     )
+    active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -26,3 +27,6 @@ class EmailVerificationEvent(models.Model):
         auto_now=False, auto_now_add=False, blank=True, null=True
     )
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.parent.email

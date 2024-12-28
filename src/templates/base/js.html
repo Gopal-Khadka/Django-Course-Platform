@@ -22,6 +22,7 @@
     if (cloudName && videoUrl) {
       const cld = cloudinary.videoPlayer(videoPlayerId, {
         cloudName: cloudName,
+        controls: true,
       });
       cld.source(videoUrl);
     }
