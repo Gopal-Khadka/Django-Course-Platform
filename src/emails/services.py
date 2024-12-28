@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.mail import send_mail
-
+from uuid import UUID
+from django.utils import timezone
 from .models import Email, EmailVerificationEvent
 
 EMAIL_HOST_USER = settings.EMAIL_HOST_USER
@@ -17,9 +18,13 @@ def get_verification_email_msg(
 ):
     if not isinstance(verification_instance, EmailVerificationEvent):
         return None
+    link = verification_instance.get_link()
     if as_html:
-        return f"<h1>{verification_instance.id}</h1>"
-    return f"{verification_instance.id}"
+        return f"""
+        <h1>Verify your email with given link:</h1> 
+        <p><a href='{link}'>Verify</a></p>
+        """
+    return f"Verify your email with given link: \n {link}"
 
 
 def start_verification_event(email):
@@ -53,3 +58,32 @@ def send_verification_email(obj: EmailVerificationEvent):
         html_message=text_html,
     )
     return did_send
+
+
+def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str]:
+    """Verify the url provided token with generated token in db"""
+    qs = EmailVerificationEvent.objects.filter(token=token)
+    if not qs.exists() and not qs.count() == 1:
+        print("Invalid token")
+        # for non-existent token
+        return False, "Invalid Token"
+    email_expired = qs.filter(expired=True)
+    if email_expired.exists():
+        # for expired token
+        return False, "Token is already expired. Try again."
+
+    max_attempts_reached = qs.filter(attempts__gte=max_attempts)
+    if max_attempts_reached.exists():
+        # for too many attempts
+        # max_attempts_reached.update()
+        return False, "Token expired. Used too many times."
+
+    # for valid token
+    obj = qs.first()
+    obj.attempts += 1
+    obj.last_attempt_at = timezone.now()
+    if obj.attempts > max_attempts:
+        obj.expired = True
+        obj.expired_at = timezone.now()
+    obj.save()
+    return True, "Welcome to the site"
