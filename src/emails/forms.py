@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Email
+from . import services
 
 
 class EmailForm(forms.Form):
@@ -19,9 +19,7 @@ class EmailForm(forms.Form):
 
     def clean_email(self):
         email: str = self.cleaned_data.get("email")
-        qs = Email.objects.filter(email__iexact=email, active=False)
-        if qs.exists():
+        verified = services.verify_email(email)
+        if verified:
             raise forms.ValidationError("Inactive(invalid) email. Try another email. ")
-        # if not email.endswith("gmail.com"):
-        #     raise forms.ValidationError("Invalid email type. Use 'Gmail' only")
         return email
