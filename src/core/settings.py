@@ -26,9 +26,9 @@ LOCAL_CDN = BASE_DIR.parent / "local-cdn"
 SECRET_KEY = "django-insecure-4a)fwzbvt!)jm^#e6c3#kv#zm(gl-vb*wo*eaa!h@l(u$44+y3"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Email Settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",  # for whitenoise static serve
     "django.contrib.staticfiles",
     # third-party apps
     "cloudinary",
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -163,3 +165,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME", default="")
 CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY", default="")
 CLOUDINARY_SECRET_KEY = config("CLOUDINARY_SECRET_KEY")
+
+
+# Whitenoise caching config (https://whitenoise.readthedocs.io/en/stable/django.html#add-compression-and-caching-support)
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
