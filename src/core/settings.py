@@ -26,9 +26,12 @@ LOCAL_CDN = BASE_DIR.parent / "local-cdn"
 SECRET_KEY = "django-insecure-4a)fwzbvt!)jm^#e6c3#kv#zm(gl-vb*wo*eaa!h@l(u$44+y3"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DJANGO_DEBUG",cast=str,default=True)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
+
+if not DEBUG:
+    ALLOWED_HOSTS.append("*.railway.app")
 
 # Email Settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -168,8 +171,8 @@ CLOUDINARY_SECRET_KEY = config("CLOUDINARY_SECRET_KEY")
 
 
 # Whitenoise caching config (https://whitenoise.readthedocs.io/en/stable/django.html#add-compression-and-caching-support)
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }

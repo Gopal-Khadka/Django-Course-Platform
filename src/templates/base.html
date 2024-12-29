@@ -13,7 +13,11 @@
     <link href="{% static 'flowbite/flowbite.min.css' %}" rel="stylesheet" />
     <!-- Django + HTMX configurations -->
     <script src="{% static 'htmx/htmx.min.js' %}"></script>
-    {% django_htmx_script %} {% include 'base/js.html'%}
+    {% django_htmx_script %}
+
+
+    {% block extrahead %}
+    {% endblock extrahead %}
   </head>
   <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}'>
     {%block content%} 

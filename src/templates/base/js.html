@@ -1,14 +1,9 @@
+{% load static %}
 <link
   rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-video-player/2.2.0/cld-video-player.min.css"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
+  href="{% static 'cloudinary/cld-video-player.min.css' %}"
 />
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-video-player/2.2.0/cld-video-player.min.js"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
+<script src="{% static 'cloudinary/cld-video-player.min.js' %}"></script>
 
 <!-- for embedding the cloudinary video player -->
 <script defer>
