@@ -1,3 +1,5 @@
+{% load static %}
+{% load django_htmx %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,11 +11,17 @@
     href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
     rel="stylesheet"
   />
+  <!-- Django + HTMX configurations -->
+    <script src="{% static 'htmx/htmx.min.js' %}"></script>
+    {% django_htmx_script %}
+
+
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   {% include 'base/js.html'%}
   </head>
-  <body>
-    {%block content%} {%endblock content%}
+  <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}'>
+    {%block content%} 
+    {%endblock content%}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
   </body>
 </html>

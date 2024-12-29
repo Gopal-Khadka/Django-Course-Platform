@@ -1,11 +1,14 @@
-{% extends 'base.html'%}
-
-{%block title%}
-Email Required
-{%endblock title%}
-
-
+{% extends 'base.html'%} 
+{%block title%} Email Required {%endblock title%}
 {%block content%}
-<h2 class="mb-2 text-lg font-semibold text-red-500 dark:text-white text-center my-5">Email is required for this lesson.</h2>
+<h2
+  class="mb-2 text-lg font-semibold text-red-500 dark:text-white text-center my-5"
+>
+  Email is required for this lesson.
+</h2>
+<p class="text-bold text-center">Login below in given form</p>
+<div hx-get="/hx/login/" hx-trigger="load">
+  <!-- This will be replaced by login form -->
+</div>
 
 {%endblock content%}

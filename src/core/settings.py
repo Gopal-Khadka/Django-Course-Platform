@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # third-party apps
     "cloudinary",
+    "django_htmx",
     # my apps
     "courses",
     "emails",
@@ -75,6 +76,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -145,7 +147,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"  # url path to serve static files
 STATIC_ROOT = LOCAL_CDN / "staticfiles"  # folder used to collect static files
-# STATICFILES_DIRS = [BASE_DIR / "static/"]  # folders that contain static files
+STATICFILES_DIRS = [BASE_DIR / "static/"]  # folders that contain static files
 
 
 MEDIA_URL = "media/"  # path to serve user uploads

@@ -2,6 +2,7 @@ asgiref==3.8.1
 certifi==2024.12.14
 cloudinary==1.41.0
 Django==5.1.4
+django-htmx==1.21.0
 pillow==11.0.0
 psycopg==3.2.3
 psycopg-binary==3.2.3

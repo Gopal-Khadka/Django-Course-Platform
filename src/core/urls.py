@@ -3,11 +3,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from emails.views import verify_email_token_view
+from emails.views import verify_email_token_view, email_token_login_view
 from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("hx/login/", email_token_login_view, name="login_form"),
     path(
         "verify/<uuid:token>", verify_email_token_view, name="verify_email_token_view"
     ),
