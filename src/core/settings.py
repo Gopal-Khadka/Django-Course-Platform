@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     # third-party apps
     "cloudinary",
     "django_htmx",
+    "tailwind",
+    "theme",  # for configuring tailwind
     # my apps
     "courses",
     "emails",
@@ -71,6 +73,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
 ]
+
+# Django-tailwind config
+TAILWIND_APP_NAME = "theme"
+if DEBUG:
+    INSTALLED_APPS.append("django_browser_reload")
+    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
+
 
 ROOT_URLCONF = "core.urls"
 

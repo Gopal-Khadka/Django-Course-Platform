@@ -1,4 +1,6 @@
-{% load static %} {% load django_htmx %}
+{% load static %}
+{% load static tailwind_tags %}
+{% load django_htmx %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,11 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CPS | {%block title%} {%endblock title%}</title>
     <link
-      rel="shortcut icon"
+      rel="shortcut icons"
       href="{% static 'images/favicon.svg' %}"
       type="image/x-icon"
     />
-    <link href="{% static 'flowbite/flowbite.min.css' %}" rel="stylesheet" />
+    {% tailwind_css %}
+    {% comment %} <link href="{% static 'flowbite/flowbite.min.css' %}" rel="stylesheet" /> {% endcomment %}
     <!-- Django + HTMX configurations -->
     <script src="{% static 'htmx/htmx.min.js' %}"></script>
     {% django_htmx_script %}
