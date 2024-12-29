@@ -11,6 +11,10 @@ EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 
 
 def logout_btn_hx_view(request: HttpRequest):
+    """
+    If GET: Returns logout button
+    If POST: Logs out the user by deleting session['email_id'] and redirects to login page
+    """
     if not request.htmx:
         return redirect("/")
     if request.method == "POST":
@@ -28,6 +32,7 @@ def logout_btn_hx_view(request: HttpRequest):
 
 
 def email_token_login_view(request):
+    """Renders the login form and triggers the email verification event"""
     # If request is sent by htmx, then returns the login form
     if not request.htmx:
         return redirect("/")
@@ -51,6 +56,11 @@ def email_token_login_view(request):
 
 
 def verify_email_token_view(request: HttpRequest, token, *args, **kwargs):
+    """
+    Verifies the provided token before the expiry and max attempts limit.
+    If unverified, returns back to login page.
+    If verified, adds email-id to session object.
+    """
     did_verify, msg, email_obj = services.verify_token(token)
     if not did_verify:
         try:
@@ -59,9 +69,11 @@ def verify_email_token_view(request: HttpRequest, token, *args, **kwargs):
             pass
         messages.error(request, msg)
         # return HttpResponse(msg)
-        return redirect("/login")
+        return redirect("/hx/login")
     messages.success(request, msg)
     request.session["email_id"] = str(email_obj.id)
+
+    # Refer to "courses.views.lesson_detail_view()"
     next_url = request.session.get("next_url") or "/"
     if not next_url.startswith("/"):
         next_url = "/"

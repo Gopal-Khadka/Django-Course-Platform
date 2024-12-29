@@ -40,8 +40,11 @@ def start_verification_event(email):
 
 
 def send_verification_email(obj: EmailVerificationEvent):
+    """
+    Send verification email(text/html) to the input email from EMAIL_HOST_USER(settings).
+
+    """
     email = obj.email
-    # send verification email
     subject = "Email verification"
     text_msg = get_verification_email_msg(obj)
     text_html = get_verification_email_msg(obj, as_html=True)
@@ -61,7 +64,11 @@ def send_verification_email(obj: EmailVerificationEvent):
 
 
 def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str, Email | None]:
-    """Verify the url provided token with generated token in db"""
+    """
+    Verify the url provided token with generated token in db.
+    Updates the no of "attempts"  and "last_attempt_at" each time when url is visited.
+    If it exceeds max_attempts, then the token is expired and "expired_at" is set.
+    """
     qs = EmailVerificationEvent.objects.filter(token=token)
     if not qs.exists() and not qs.count() == 1:
         # for non-existent token
@@ -71,7 +78,7 @@ def verify_token(token: UUID, max_attempts=5) -> tuple[bool, str, Email | None]:
         # for expired token
         return False, "Token is already expired. Try again.", None
 
-    max_attempts_reached = qs.filter(attempts__gte=max_attempts)
+    max_attempts_reached = qs.filter(attempts__gte=max_attempts) # check if attemps is greater than or equal to max_attempts
     if max_attempts_reached.exists():
         # for too many attempts
         # max_attempts_reached.update()
