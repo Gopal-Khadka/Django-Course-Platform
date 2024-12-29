@@ -26,7 +26,7 @@ LOCAL_CDN = BASE_DIR.parent / "local-cdn"
 SECRET_KEY = "django-insecure-4a)fwzbvt!)jm^#e6c3#kv#zm(gl-vb*wo*eaa!h@l(u$44+y3"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 

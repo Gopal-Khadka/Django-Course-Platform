@@ -1,7 +1,13 @@
 {% extends 'admin/base_site.html' %}
+{% load static %}
 
 {% block extrahead%}
 {{block.super}}
+<link
+rel="shortcut icon"
+href="{% static 'images/admin-favicon.svg' %}"
+type="image/x-icon"
+/>
 {% include 'base/js.html'%}
 {% endblock extrahead%}
 
