@@ -31,4 +31,8 @@
         </button>
         </form>
     {% endif %}
+{% else %}
+    <!-- Render logout btn-->
+    <div hx-get="/hx/logout/" hx-trigger="revealed"> 
+    </div>
 {% endif %}

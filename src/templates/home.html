@@ -1,16 +1,9 @@
-{% extends 'base.html'%}
-
-{%block title%}
-Home Page
-{%endblock title%}
-
-
+{% extends 'base.html'%} {%block title%} Home Page {%endblock title%} 
 {%block content%}
-<h1 class="my-3 text-center font-bold text-3xl">Welcome to my site</h1>
+   <div class="text-center">
+    <h1 class="my-3 font-bold text-3xl">Welcome to my site</h1>
 
-<div hx-get="hx/login/" hx-trigger="load">
+    <div hx-get="hx/login/" hx-trigger="load">
     <!-- This will be replaced by login form -->
-</div>
-
-
+    </div>
 {%endblock content%}

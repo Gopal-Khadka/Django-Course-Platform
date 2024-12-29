@@ -10,18 +10,31 @@ from .forms import EmailForm
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 
 
+def logout_btn_hx_view(request: HttpRequest):
+    if not request.htmx:
+        return redirect("/")
+    if request.method == "POST":
+        try:
+            del request.session["email_id"]  # remove email-id from session i.e. logout
+        except:
+            pass
+        email_id_in_session = request.session.get("email_id")
+        if not email_id_in_session:  # if logged out, redirect to home (login form)
+            return HttpResponseClientRedirect("/")
+
+    return render(
+        request, "emails/hx/logout-btn.html"
+    )  # return for GET and logged in state
+
+
 def email_token_login_view(request):
     # If request is sent by htmx, then returns the login form
     if not request.htmx:
         return redirect("/")
     email_id_in_session = request.session.get("email_id")
     form = EmailForm(request.POST or None)
-    template_name = "emails/hx/email_form.html"
-    context = {
-        "form": form,
-        "message": "",
-        "show_form": not email_id_in_session
-    }
+    template_name = "emails/hx/email-form.html"
+    context = {"form": form, "message": "", "show_form": not email_id_in_session}
     if form.is_valid():
         email_val = form.cleaned_data.get("email")
         obj = services.start_verification_event(email_val)
@@ -30,7 +43,7 @@ def email_token_login_view(request):
             f"Success. Check the verification mail from {EMAIL_ADDRESS} in your inbox."
         )
         # If form is valid, redirects to welcome page
-        return HttpResponseClientRedirect("/welcome")
+        # return HttpResponseClientRedirect("/welcome")
     else:
         print(form.errors)
 
