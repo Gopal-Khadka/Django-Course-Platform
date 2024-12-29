@@ -1,36 +1,11 @@
 {% load static %}
-<link
-  rel="stylesheet"
-  href="{% static 'cloudinary/cld-video-player.min.css' %}"
-/>
-<script src="{% static 'cloudinary/cld-video-player.min.js' %}"></script>
+{% load django_htmx %}
+<!--  Alpine JS File-->
 
-<!-- for embedding the cloudinary video player -->
-<script defer>
-  function renderVideoElement(videoPlayerElement) {
-    const currentVideoId = videoPlayerElement.getAttribute("id");
-    const videoPlayerId =
-      `${currentVideoId}` + "-gops-" + Math.random().toString(36).substr(2, 9);
-    videoPlayerElement.setAttribute("id", videoPlayerId);
-    const cloudName = videoPlayerElement.dataset.cloudName;
-    const videoUrl = videoPlayerElement.dataset.videoUrl;
-    if (cloudName && videoUrl) {
-      const cld = cloudinary.videoPlayer(videoPlayerId, {
-        cloudName: cloudName,
-        controls: true,
-      });
-      cld.source(videoUrl);
-    }
-  }
 
-  function renderAllVideos() {
-    const videoPlayerClassName = "gops-video";
-    const videoPlayerElements =
-      document.getElementsByClassName(videoPlayerClassName);
-    for (let el of videoPlayerElements) {
-      renderVideoElement(el);
-    }
-  }
+<!--  HTMX JS File-->
+{% django_htmx_script %} <!-- Django + HTMX configurations -->
+<script src="{% static 'htmx/htmx.min.js' %}"></script>
 
-  document.addEventListener("DOMContentLoaded", renderAllVideos);
-</script>
+<!-- Flowbite JS File-->
+<script src="{% static 'flowbite/flowbite.min.js' %}" defer></script>

@@ -1,0 +1,36 @@
+{% load static %}
+<link
+  rel="stylesheet"
+  href="{% static 'cloudinary/cld-video-player.min.css' %}"
+/>
+<script src="{% static 'cloudinary/cld-video-player.min.js' %}"></script>
+
+<!-- for embedding the cloudinary video player -->
+<script defer>
+  function renderVideoElement(videoPlayerElement) {
+    const currentVideoId = videoPlayerElement.getAttribute("id");
+    const videoPlayerId =
+      `${currentVideoId}` + "-gops-" + Math.random().toString(36).substr(2, 9);
+    videoPlayerElement.setAttribute("id", videoPlayerId);
+    const cloudName = videoPlayerElement.dataset.cloudName;
+    const videoUrl = videoPlayerElement.dataset.videoUrl;
+    if (cloudName && videoUrl) {
+      const cld = cloudinary.videoPlayer(videoPlayerId, {
+        cloudName: cloudName,
+        controls: true,
+      });
+      cld.source(videoUrl);
+    }
+  }
+
+  function renderAllVideos() {
+    const videoPlayerClassName = "gops-video";
+    const videoPlayerElements =
+      document.getElementsByClassName(videoPlayerClassName);
+    for (let el of videoPlayerElements) {
+      renderVideoElement(el);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", renderAllVideos);
+</script>

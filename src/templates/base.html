@@ -1,8 +1,7 @@
 {% load static %}
 {% load static tailwind_tags %}
-{% load django_htmx %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,19 +12,14 @@
       type="image/x-icon"
     />
     {% tailwind_css %}
-    {% comment %} <link href="{% static 'flowbite/flowbite.min.css' %}" rel="stylesheet" /> {% endcomment %}
-    <!-- Django + HTMX configurations -->
-    <script src="{% static 'htmx/htmx.min.js' %}"></script>
-    {% django_htmx_script %}
-
 
     {% block extrahead %}
     {% endblock extrahead %}
+    {% include "base/js.html" %}
   </head>
   <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}'>
     {%block content%} 
     {%endblock content%}
-    <!-- Flowbite JS File-->
-    <script src="{% static 'flowbite/flowbite.min.js' %}"></script>
+    
   </body>
 </html>

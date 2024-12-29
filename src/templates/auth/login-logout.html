@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Login
+{%endblock title%}
+
+
+{%block content%}
+<h2 class="mb-2 text-2xl font-semibold text-gray-900 dark:text-white">Login</h2>
+<div hx-get="/hx/login/" hx-trigger="load">
+
+{%endblock content%}

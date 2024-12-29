@@ -15,3 +15,8 @@ def home(request, *args, **kwargs):
     """
     template_name = "home.html"
     return render(request, template_name)
+
+
+def login_logout_view(request):
+
+    return render(request, "auth/login-logout.html")

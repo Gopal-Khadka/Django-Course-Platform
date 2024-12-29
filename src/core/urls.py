@@ -12,6 +12,8 @@ from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("login/", views.login_logout_view, name="login"),
+    path("logout/", views.login_logout_view, name="logout"),
     path("hx/login/", email_token_login_view, name="login_form"),
     path("hx/logout/", logout_btn_hx_view, name="logout_btn"),
     path(
