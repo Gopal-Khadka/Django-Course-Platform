@@ -13,10 +13,11 @@
         Lessons
       </h2>
     </div>
-    <div class="font-semibold mb-5">
-      <h2 class="text-lg text-gray-900 dark:text-white sm:text-xl">Description</h2>
+    <div class="font-semibold mb-5  dark:text-white">
+      <h2 class="text-lg text-gray-900 sm:text-xl">Description</h2>
       <p class="text-center text-sm">{{object.description}}</p>
-
+      <p class="text-center text-sm">Rating: {{object.avg_rating}}</p>
+      <p class="text-center text-sm">No of reviews: {{object.reviews_count}}</p>
     </div>
     <div
       class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"

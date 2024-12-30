@@ -2,7 +2,7 @@ import helpers
 from cloudinary import CloudinaryImage
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Course, Lesson
+from .models import Course, Lesson,CourseReviews
 
 
 class LessonInline(admin.StackedInline):
@@ -53,3 +53,10 @@ class CourseAdmin(admin.ModelAdmin):
         return format_html(f"<img src='{url}'/>")
 
     display_image.short_description = "Current Image"
+
+
+@admin.register(CourseReviews)
+class CourseReviewAdmin(admin.ModelAdmin):
+    list_display = ('email', 'course', 'rating', 'created_at')
+    list_filter = ('rating',)
+    search_fields = ('email__email', 'course__name', 'review')

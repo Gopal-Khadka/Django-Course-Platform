@@ -61,6 +61,9 @@ class Course(models.Model):
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(null=True, blank=True)
     public_id = models.CharField(max_length=210, blank=True, null=True, db_index=True)
+    # price
+    # discount
+    # reviews
     thumbnail = CloudinaryField(
         "thumbnail",
         null=True,
@@ -92,19 +95,29 @@ class Course(models.Model):
         return self.status
 
     @property
+    def avg_rating(self):
+        reviews:CourseReviews = self.reviews
+        avg_rating = int(reviews.aggregate(models.Avg('rating')).get("rating__avg",0))
+        return avg_rating
+    
+    @property
+    def reviews_count(self):
+        return self.reviews.count()
+
+    @property
     def admin_image_url(self):
         url = helpers.get_cloudinary_image_object(
             self, width=300, field_name="thumbnail"
         )
         return url
-    
+
     @property
     def list_image_url(self):
         url = helpers.get_cloudinary_image_object(
             self, width=400, field_name="thumbnail"
         )
         return url
-    
+
     @property
     def detail_image_url(self):
         url = helpers.get_cloudinary_image_object(
@@ -124,6 +137,22 @@ class Course(models.Model):
 
     def get_image_thumbnail(self, width=500, as_html=False):
         return helpers.get_cloudinary_image_object(self, width=width, as_html=as_html)
+
+
+class CourseReviews(models.Model):
+    email = models.ForeignKey("emails.email", on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="reviews")
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    review = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Review by {self.email}"
+
+    class Meta:
+        verbose_name = "Course Review"
+        ordering = ['-created_at'] 
 
 
 class Lesson(models.Model):
@@ -194,21 +223,21 @@ class Lesson(models.Model):
     @property
     def requires_email(self):
         return self.course.access == AccessRequirement.EMAIL_REQUIRED
-    
+
     @property
     def admin_image_url(self):
         url = helpers.get_cloudinary_image_object(
             self, width=300, field_name="thumbnail"
         )
         return url
-    
+
     @property
     def list_image_url(self):
         url = helpers.get_cloudinary_image_object(
             self, width=400, field_name="thumbnail"
         )
         return url
-    
+
     @property
     def detail_image_url(self):
         url = helpers.get_cloudinary_image_object(
