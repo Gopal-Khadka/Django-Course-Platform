@@ -8,7 +8,12 @@ from . import services
 def course_list_view(request):
     """Show list of available published courses"""
     qs = services.get_published_courses()
-    return render(request, "courses/list.html", {"courses_list": qs})
+    template_name = "courses/list.html"
+    context = {"courses_list": qs}
+    if request.htmx:
+        template_name = "courses/components/course-cards.html"
+        context["courses_list"] = qs[:3]
+    return render(request, template_name, context)
 
 
 def course_detail_view(request, course_id=None, *args, **kwargs):
