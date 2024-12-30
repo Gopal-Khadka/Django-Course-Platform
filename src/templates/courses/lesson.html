@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-
+{% load static %}
 <!-- Add cloudinary css and js for video player -->
 {% block extrahead %}
 {% include 'base/cld-js.html'%}
@@ -11,7 +11,43 @@ Lesson Detail
 
 
 {%block content%}
-<h2 class="mb-2 text-2xl font-semibold text-gray-900 dark:text-white">{{lesson_obj.title}}</h2>
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    <div class="mx-auto max-w-screen-xl px-1 2xl:px-0">
+      <div class="mx-auto max-w-5xl">
+        <!-- lesson title -->
+        <h2
+          class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl"
+        >
+          {{lesson_obj.title}} 
 
-{{video_embed}}
+        </h2>
+
+        <!-- lesson description -->
+        <div class="max-w-2xl space-y-6 my-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white sm:text-xl" >Description</h2>
+            <p class="text-base font-medium text-gray-700 dark:text-gray-400">
+              {{lesson_obj.description}}
+            </p>
+          </div>
+  
+        <!-- Lesson Image -->
+        <div class="my-8 overflow-hidden ">
+          <img
+            class="dark:block mx-auto object-contain h-96 rounded-3xl"
+            src="{% if lesson_obj.detail_image_url  %}{{lesson_obj.list_image_url}}{% else %}{% static "images/fallback.svg" %}{% endif %}"
+            alt=""
+          />
+        </div>
+  
+        
+        <!-- lesson video -->
+        <div class="my-6 md:my-12 rounded-lg flex items-center justify-center">
+            {{video_embed}}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
 {%endblock content%}
