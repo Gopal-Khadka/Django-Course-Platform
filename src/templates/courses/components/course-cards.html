@@ -1,0 +1,25 @@
+<section class="bg-gray-50 py-3 antialiased dark:bg-gray-900 md:py-12">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <!-- Heading & Filters -->
+      <div
+        class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8"
+      >
+        <h2
+          class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl"
+        >
+          Courses
+        </h2>
+      </div>
+      <div
+        class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"
+      >
+        
+        <!-- List of cards-->
+         {% for course in courses_list %}
+         {% include "courses/components/course-card.html" %}
+         {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  
