@@ -1,7 +1,6 @@
 from pathlib import Path
 from decouple import config
 
-
 BASE_URL = config("BASE_URL", "http://localhost:8000", cast=str)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,7 +10,11 @@ LOCAL_CDN = BASE_DIR.parent / "local-cdn"
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-4a)fwzbvt!)jm^#e6c3#kv#zm(gl-vb*wo*eaa!h@l(u$44+y3"
+SECRET_KEY = config(
+    "DJANGO_SECRET_KEY",
+    default="django-insecure-4a)fwzbvt!)jm^#e6c3#kv#zm(gl-vb*wo*eaa!h@l(u$44+y3",
+    cast=str,
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DJANGO_DEBUG", cast=str, default=True)
