@@ -9,10 +9,10 @@ def course_list_view(request):
     """Show list of available published courses"""
     qs = services.get_published_courses()
     template_name = "courses/list.html"
-    context = {"courses_list": qs}
+    context = {"queryset": qs}
     if request.htmx:
         template_name = "courses/components/course-cards.html"
-        context["courses_list"] = qs[:3]
+        context["queryset"] = qs[:3]
     return render(request, template_name, context)
 
 
@@ -27,7 +27,7 @@ def course_detail_view(request, course_id=None, *args, **kwargs):
         "courses/detail.html",
         {
             "object": course_obj,
-            "lessons_list": lessons_qs,
+            "queryset": lessons_qs,
         },
     )
 
@@ -55,7 +55,7 @@ def lesson_detail_view(
         return render(request, "courses/email-required.html")
 
     # template_name = "courses/purchase-required.html"
-    context = {"lesson_obj": lesson_obj}
+    context = {"object": lesson_obj}
     template_name = "courses/lesson-coming-soon.html"
     if not lesson_obj.is_coming_soon and lesson_obj.has_video:
         # Lesson is already published and Video is available for the lesson

@@ -15,8 +15,8 @@
       >
         
         <!-- List of cards-->
-         {% for course in courses_list %}
-         {% include "courses/components/course-card.html" %}
+         {% for item in queryset %}
+          {% course_card item=item %}
          {% endfor %}
         </div>
       </div>

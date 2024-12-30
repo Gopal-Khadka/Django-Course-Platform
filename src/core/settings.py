@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "django_htmx",
     "tailwind",
     "theme",  # for configuring tailwind
+    "slippers",  # for django-components
     # my apps
     "courses",
     "emails",
@@ -101,6 +102,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            "builtins": ["slippers.templatetags.slippers"],
         },
     },
 ]
@@ -114,7 +116,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "dev.sqlite3",
     }
 }
 

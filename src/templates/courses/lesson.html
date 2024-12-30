@@ -9,7 +9,6 @@
 Lesson Detail
 {%endblock title%}
 
-
 {%block content%}
 <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
     <div class="mx-auto max-w-screen-xl px-1 2xl:px-0">
@@ -18,7 +17,7 @@ Lesson Detail
         <h2
           class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl"
         >
-          {{lesson_obj.title}} 
+          {{object.title}} 
 
         </h2>
 
@@ -26,7 +25,7 @@ Lesson Detail
         <div class="max-w-2xl space-y-6 my-4">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white sm:text-xl" >Description</h2>
             <p class="text-base font-medium text-gray-700 dark:text-gray-400">
-              {{lesson_obj.description}}
+              {{object.description}}
             </p>
           </div>
   
@@ -34,7 +33,7 @@ Lesson Detail
         <div class="my-8 overflow-hidden ">
           <img
             class="dark:block mx-auto object-contain h-96 rounded-3xl"
-            src="{% if lesson_obj.detail_image_url  %}{{lesson_obj.list_image_url}}{% else %}{% static "images/fallback.svg" %}{% endif %}"
+            src="{% if object.detail_image_url  %}{{object.list_image_url}}{% else %}{% static "images/fallback.svg" %}{% endif %}"
             alt=""
           />
         </div>
