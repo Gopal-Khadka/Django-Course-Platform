@@ -97,7 +97,7 @@ class Course(models.Model):
     @property
     def avg_rating(self):
         reviews:CourseReviews = self.reviews
-        avg_rating = int(reviews.aggregate(models.Avg('rating')).get("rating__avg",0))
+        avg_rating = reviews.aggregate(models.Avg('rating')).get("rating__avg","0")
         return avg_rating
     
     @property
