@@ -97,6 +97,20 @@ class Course(models.Model):
             self, width=300, field_name="thumbnail"
         )
         return url
+    
+    @property
+    def list_image_url(self):
+        url = helpers.get_cloudinary_image_object(
+            self, width=400, field_name="thumbnail"
+        )
+        return url
+    
+    @property
+    def detail_image_url(self):
+        url = helpers.get_cloudinary_image_object(
+            self, width=750, field_name="thumbnail"
+        )
+        return url
 
     def get_absolute_url(self):
         return self.path
@@ -180,3 +194,24 @@ class Lesson(models.Model):
     @property
     def requires_email(self):
         return self.course.access == AccessRequirement.EMAIL_REQUIRED
+    
+    @property
+    def admin_image_url(self):
+        url = helpers.get_cloudinary_image_object(
+            self, width=300, field_name="thumbnail"
+        )
+        return url
+    
+    @property
+    def list_image_url(self):
+        url = helpers.get_cloudinary_image_object(
+            self, width=400, field_name="thumbnail"
+        )
+        return url
+    
+    @property
+    def detail_image_url(self):
+        url = helpers.get_cloudinary_image_object(
+            self, width=750, field_name="thumbnail"
+        )
+        return url
