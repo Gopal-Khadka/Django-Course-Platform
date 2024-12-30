@@ -9,7 +9,10 @@ def course_list_view(request):
     """Show list of available published courses"""
     qs = services.get_published_courses()
     template_name = "courses/list.html"
-    context = {"queryset": qs}
+    context = {
+        "queryset": qs,
+        "type": qs.first().__class__.__name__.lower(),
+    }
     if request.htmx:
         template_name = "courses/components/course-cards.html"
         context["queryset"] = qs[:3]
@@ -28,6 +31,7 @@ def course_detail_view(request, course_id=None, *args, **kwargs):
         {
             "object": course_obj,
             "queryset": lessons_qs,
+            "type": lessons_qs.first().__class__.__name__.lower(),
         },
     )
 

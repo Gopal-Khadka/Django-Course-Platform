@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from .models import Course, PublishStatus, Lesson
 
 
@@ -20,7 +21,7 @@ def get_course_lessons(course_obj: Course = None):
     lessons = Lesson.objects.none()
     if not isinstance(course_obj, Course):
         return lessons
-    lessons = course_obj.lesson_set.all()
+    lessons:QuerySet[Lesson] = course_obj.lesson_set.all()
     return lessons
 
 

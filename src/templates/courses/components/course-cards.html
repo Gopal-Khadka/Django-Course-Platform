@@ -16,7 +16,7 @@
         
         <!-- List of cards-->
          {% for item in queryset %}
-          {% course_card item=item %}
+          {% course_card item=item type=type%}
          {% endfor %}
         </div>
       </div>

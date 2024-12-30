@@ -1,13 +1,51 @@
 from django.contrib import messages
 from django.conf import settings
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,HttpResponse
 from django.http import HttpRequest
 from django_htmx.http import HttpResponseClientRedirect
+
+from .models import UserProfile,Email
+from courses.models import Course
 
 from . import services
 from .forms import EmailForm
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
+
+
+def like_course_hx_view(request: HttpRequest, course):
+    if not request.htmx:
+        return HttpResponse("Not a htmx request")
+    user_email_id = request.session.get("email_id", None)
+    if user_email_id:
+        user_email = Email.objects.get(id=user_email_id)
+        user_profile, created = UserProfile.objects.get_or_create(user=user_email)
+        course_obj = Course.objects.get(public_id=course)
+        if user_profile.favorites.filter(id = course_obj.id).exists():
+            user_profile.favorites.remove(course_obj)
+            return HttpResponse("Removed")
+        else:
+            user_profile.favorites.add(course_obj)
+
+    return HttpResponse("Added")
+
+def like_lesson_hx_view(request: HttpRequest, course):
+    if not request.htmx:
+        return HttpResponse("Not a htmx request")
+    user_email_id = request.session.get("email_id", None)
+    if user_email_id:
+        user_email = Email.objects.get(id=user_email_id)
+        user_profile, created = UserProfile.objects.get_or_create(user=user_email)
+        course_obj = Course.objects.get(public_id=course)
+        if user_profile.favorites.filter(id = course_obj.id).exists():
+            user_profile.favorites.remove(course_obj)
+            return HttpResponse("Removed")
+        else:
+            user_profile.favorites.add(course_obj)
+
+    return HttpResponse("Added")
+
+
 
 
 def logout_btn_hx_view(request: HttpRequest):

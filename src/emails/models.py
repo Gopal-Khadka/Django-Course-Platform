@@ -26,9 +26,8 @@ class UserProfile(models.Model):
     favorites = models.ManyToManyField(
         Course, related_name="favorite_users", blank=True
     )
-
     def __str__(self):
-        return f"{self.user.username}'s Profile"
+        return f"{self.user.email}'s Profile"
 
 
 # model to handle relation between each course and each user

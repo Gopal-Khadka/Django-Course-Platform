@@ -19,8 +19,11 @@
   </head>
   <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}' class="font-sans">
     {% navbar %}
-    {%block content%} 
-    {%endblock content%}
+    <main x-data>
+
+      {%block content%} 
+      {%endblock content%}
+    </main>
     
   </body>
 </html>
