@@ -16,6 +16,10 @@ def home(request, *args, **kwargs):
     template_name = "home.html"
     return render(request, template_name)
 
+def contact(request, *args, **kwargs):
+    template_name = "base/contact.html"
+    return render(request, template_name)
+
 
 def login_logout_view(request):
 

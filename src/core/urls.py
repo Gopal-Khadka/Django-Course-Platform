@@ -12,6 +12,7 @@ from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("contact", views.contact, name="contact"),
     path("login/", views.login_logout_view, name="login"),
     path("logout/", views.login_logout_view, name="logout"),
     path("hx/login/", email_token_login_view, name="login_form"),

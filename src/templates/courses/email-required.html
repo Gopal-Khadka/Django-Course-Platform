@@ -1,14 +1,25 @@
-{% extends 'base.html'%} 
-{%block title%} Email Required {%endblock title%}
+{% extends 'base.html'%}
+{% load static %}
+
+{%block title%}
+    Unlock content
+{%endblock title%}
+
+
 {%block content%}
-<h2
-  class="mb-2 text-lg font-semibold text-red-500 dark:text-white text-center my-5"
->
-  Email is required for this lesson.
-</h2>
-<p class="text-bold text-center">Login below in given form</p>
-<div hx-get="/hx/login/" hx-trigger="load">
-  <!-- This will be replaced by login form -->
-</div>
+<section class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <img class="w-8 h-8 mr-2" src="{% static "images/favicon.svg" %}" alt="logo">
+            Verify to unlock course
+        </a>
+        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <div hx-get="/hx/login/" hx-trigger="load">
+                
+            </div>
+        </div>
+    </div>
+  </section>
 
 {%endblock content%}
