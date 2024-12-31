@@ -23,9 +23,9 @@ def is_added_to_cart_hx_view(request,course):
 def like_icon_hx_view(request: HttpRequest, instance, public_id):
     if not request.htmx:
         return HttpResponse("Not a htmx request.")
-    instance_already_liked = False
     email_id = request.session.get("email_id")
     if email_id:
+        instance_already_liked = False
         if instance == "course":
             instance_already_liked = services.is_course_liked(email_id, public_id)
         else:
@@ -40,10 +40,10 @@ def like_course_hx_view(request: HttpRequest, course):
         return HttpResponse("Not a htmx request")
     user_email_id = request.session.get("email_id", None)
     if user_email_id:
-        course_unliked = services.like_course(user_email_id, course)
-        if course_unliked:
-            return render(request, "hx_endpoints/components/hollow-like.html")
-        return render(request, "hx_endpoints/components/filled-like.html")
+        course_liked = services.like_course(user_email_id, course)
+        if course_liked:
+            return render(request, "hx_endpoints/components/filled-like.html")
+        return render(request, "hx_endpoints/components/hollow-like.html")
 
 
 def add_to_cart_hx_view(request, course):
@@ -62,10 +62,10 @@ def like_lesson_hx_view(request: HttpRequest, lesson):
         return HttpResponse("Not a htmx request")
     user_email_id = request.session.get("email_id", None)
     if user_email_id:
-        lesson_unliked = services.like_lesson(user_email_id, lesson)
-        if lesson_unliked:
-            return render(request, "hx_endpoints/components/hollow-like.html")
-        return render(request, "hx_endpoints/components/filled-like.html")
+        lesson_liked = services.like_lesson(user_email_id, lesson)
+        if lesson_liked:
+            return render(request, "hx_endpoints/components/filled-like.html")
+        return render(request, "hx_endpoints/components/hollow-like.html")
 
 
 def logout_btn_hx_view(request: HttpRequest):

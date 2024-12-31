@@ -1,9 +1,9 @@
 <button
 type="button"
 hx-get="{% if type == 'course' %} {% url 'hx:like_course' course=item.public_id %} {% else %} {% url 'hx:like_lesson' lesson=item.public_id %} {% endif %}"
-hx-trigger="click"
+hx-trigger="click delay:500ms"
 data-tooltip-target="tooltip-add-to-favorites"
 class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
         <span class="sr-only"> Add to Favorites </span>
-        <span hx-trigger="revealed"hx-get="{% url "hx:get_like_icon" instance=type public_id=item.public_id%}"></span>
+        <span hx-trigger="load" hx-get="{% url 'hx:get_like_icon' instance=type public_id=item.public_id %}" hx-target="this" id="like-icon"></span>
 </button>

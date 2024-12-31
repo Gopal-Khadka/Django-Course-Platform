@@ -17,7 +17,7 @@
     {% endblock extrahead %}
     {% include "base/js.html" %}
   </head>
-  <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}' class="font-sans">
+  <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}' class="font-sans dark:bg-gray-900">
     {% navbar request=request %}
     <main x-data>
 

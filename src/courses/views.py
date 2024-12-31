@@ -1,6 +1,6 @@
 import helpers
 from django.shortcuts import render
-from django.http import Http404, HttpRequest
+from django.http import Http404, HttpRequest,HttpResponse
 
 from . import services
 
@@ -16,6 +16,7 @@ def course_list_view(request):
     if request.htmx:
         template_name = "courses/components/course-cards.html"
         context["queryset"] = qs[:3]
+        # return HttpResponse("Courses")
     return render(request, template_name, context)
 
 
