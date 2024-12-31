@@ -10,15 +10,19 @@ from emails.forms import EmailForm
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 
-def like_icon_hx_view(request:HttpRequest,instance):
+
+def like_icon_hx_view(request: HttpRequest, instance, public_id):
     if not request.htmx:
         return HttpResponse("Not a htmx request.")
-    if instance=="course":
-        return render(request,"hx_endpoints/components/filled-like.html")
+    instance_already_liked = False
+    email_id = request.session.get("email_id")
+    if instance == "course":
+        instance_already_liked = services.is_course_liked(email_id, public_id)
     else:
-        return render(request,"hx_endpoints/components/hollow-like.html")
-
-
+        instance_already_liked = services.is_lesson_liked(email_id, public_id)
+    if instance_already_liked:
+        return render(request, "hx_endpoints/components/filled-like.html")
+    return render(request, "hx_endpoints/components/hollow-like.html")
 
 
 def like_course_hx_view(request: HttpRequest, course):
@@ -28,8 +32,8 @@ def like_course_hx_view(request: HttpRequest, course):
     if user_email_id:
         course_unliked = services.like_course(user_email_id, course)
         if course_unliked:
-            return HttpResponse("Removed")
-        return HttpResponse("Added")
+            return render(request, "hx_endpoints/components/hollow-like.html")
+        return render(request, "hx_endpoints/components/filled-like.html")
 
 
 def like_lesson_hx_view(request: HttpRequest, lesson):
@@ -39,8 +43,8 @@ def like_lesson_hx_view(request: HttpRequest, lesson):
     if user_email_id:
         lesson_unliked = services.like_lesson(user_email_id, lesson)
         if lesson_unliked:
-            return HttpResponse("Removed")
-        return HttpResponse("Added")
+            return render(request, "hx_endpoints/components/hollow-like.html")
+        return render(request, "hx_endpoints/components/filled-like.html")
 
 
 def logout_btn_hx_view(request: HttpRequest):

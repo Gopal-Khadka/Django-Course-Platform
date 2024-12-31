@@ -2,7 +2,7 @@ import helpers
 from cloudinary import CloudinaryImage
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Course, Lesson, CourseReviews
+from .models import Course, Lesson, CourseReview, LessonReview
 
 
 class LessonInline(admin.StackedInline):
@@ -35,9 +35,15 @@ class LessonInline(admin.StackedInline):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonInline]
-    list_display = ["title", "status", "access","avg_rating","reviews_count",]
+    list_display = [
+        "title",
+        "status",
+        "access",
+        "avg_rating",
+        "reviews_count",
+    ]
     list_filter = ["status", "access"]
-    search_fields=["title","status"]
+    search_fields = ["title", "status"]
     fields = [
         "public_id",
         "title",
@@ -63,8 +69,15 @@ class CourseAdmin(admin.ModelAdmin):
     display_image.short_description = "Current Image"
 
 
-@admin.register(CourseReviews)
+@admin.register(CourseReview)
 class CourseReviewAdmin(admin.ModelAdmin):
     list_display = ("email", "course", "rating", "created_at")
     list_filter = ("rating",)
     search_fields = ("email__email", "course__name", "review")
+
+
+@admin.register(LessonReview)
+class LessonReviewAdmin(admin.ModelAdmin):
+    list_display = ("email", "lesson", "rating", "created_at")
+    list_filter = ("rating",)
+    search_fields = ("email__email", "lesson__name", "review")

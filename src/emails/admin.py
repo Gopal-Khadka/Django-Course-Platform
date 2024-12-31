@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Email, EmailVerificationEvent,UserProfile
+from .models import Email, EmailVerificationEvent
 
 
 @admin.register(Email)
@@ -8,9 +8,6 @@ class EmailAdmin(admin.ModelAdmin):
     ordering=["-timestamp"]
     list_filter=["active"]
     list_display=["email","active"]
-
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
     filter_horizontal=["cart_items","favorites","lesson_favorites"]
 
 @admin.register(EmailVerificationEvent)

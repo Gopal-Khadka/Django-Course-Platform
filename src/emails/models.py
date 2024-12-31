@@ -1,11 +1,8 @@
 import uuid
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.db import models
 
 from courses.models import Course,Lesson
-
-User = get_user_model()
 
 
 class Email(models.Model):
@@ -15,13 +12,6 @@ class Email(models.Model):
     )
     active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.email
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(Email, on_delete=models.CASCADE)
     cart_items = models.ManyToManyField(Course, related_name="cart_users", blank=True)
     favorites = models.ManyToManyField(
         Course, related_name="favorite_users", blank=True
@@ -31,7 +21,7 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return f"{self.user.email}'s Profile"
+        return self.email
 
 
 # model to handle relation between each course and each user

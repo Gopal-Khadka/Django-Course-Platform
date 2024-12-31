@@ -96,10 +96,10 @@ class Course(models.Model):
 
     @property
     def avg_rating(self):
-        reviews:CourseReviews = self.reviews
-        avg_rating = reviews.aggregate(models.Avg('rating')).get("rating__avg","0")
-        return avg_rating
-    
+        reviews = self.reviews
+        avg_rating = reviews.aggregate(models.Avg("rating")).get("rating__avg") or "0"
+        return int(avg_rating)
+
     @property
     def reviews_count(self):
         return self.reviews.count()
@@ -139,7 +139,7 @@ class Course(models.Model):
         return helpers.get_cloudinary_image_object(self, width=width, as_html=as_html)
 
 
-class CourseReviews(models.Model):
+class CourseReview(models.Model):
     email = models.ForeignKey("emails.email", on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="reviews")
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
@@ -152,7 +152,7 @@ class CourseReviews(models.Model):
 
     class Meta:
         verbose_name = "Course Review"
-        ordering = ['-created_at'] 
+        ordering = ["-created_at"]
 
 
 class Lesson(models.Model):
@@ -244,3 +244,29 @@ class Lesson(models.Model):
             self, width=750, field_name="thumbnail"
         )
         return url
+
+    @property
+    def avg_rating(self):
+        reviews = self.reviews
+        avg_rating = reviews.aggregate(models.Avg("rating")).get("rating__avg") or "0"
+        return int(avg_rating)
+
+    @property
+    def reviews_count(self):
+        return self.reviews.count()
+
+
+class LessonReview(models.Model):
+    email = models.ForeignKey("emails.email", on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="reviews")
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    review = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Review by {self.email}"
+
+    class Meta:
+        verbose_name = "Course Review"
+        ordering = ["-created_at"]

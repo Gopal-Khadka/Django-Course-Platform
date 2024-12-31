@@ -1,5 +1,18 @@
-from emails.models import Email, UserProfile
+from emails.models import Email
 from courses.models import Course, Lesson
+
+
+def is_course_liked(email_id, public_id):
+    user_profile = Email.objects.get(id=email_id)
+    course_obj = Course.objects.get(public_id=public_id)
+    return user_profile.favorites.contains(course_obj)
+    # user_profile.favorites.filter(id=course_obj.id).exists()
+
+
+def is_lesson_liked(email_id, public_id):
+    user_profile = Email.objects.get(id=email_id)
+    lesson_obj = Lesson.objects.get(public_id=public_id)
+    return user_profile.lesson_favorites.contains(lesson_obj)
 
 
 def toggle_favorite(email_id, public_id, model_type):
@@ -10,8 +23,7 @@ def toggle_favorite(email_id, public_id, model_type):
     object_unliked = False
 
     # Get the user and user profile
-    user_email = Email.objects.get(id=email_id)
-    user_profile, created = UserProfile.objects.get_or_create(user=user_email)
+    user_profile = Email.objects.get(id=email_id)
 
     # Determine the object (Course or Lesson) based on `model_type`
     if model_type == "course":
