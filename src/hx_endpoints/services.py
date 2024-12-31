@@ -1,13 +1,26 @@
 from emails.models import Email
 from courses.models import Course, Lesson
 
+def is_course_in_cart(email_id, public_id):
+    user_profile = Email.objects.get(id=email_id)
+    course_obj = Course.objects.get(public_id=public_id)
+    return user_profile.cart_items.contains(course_obj)
+
+def add_to_cart(email_id, public_id):
+    user_profile = Email.objects.get(id=email_id)
+    course_obj = Course.objects.get(public_id=public_id)
+    if user_profile.cart_items.contains(course_obj):
+        user_profile.cart_items.remove(course_obj)
+        return False
+    else:
+        user_profile.cart_items.add(course_obj)
+    return True
+
 
 def is_course_liked(email_id, public_id):
     user_profile = Email.objects.get(id=email_id)
     course_obj = Course.objects.get(public_id=public_id)
     return user_profile.favorites.contains(course_obj)
-    # user_profile.favorites.filter(id=course_obj.id).exists()
-
 
 def is_lesson_liked(email_id, public_id):
     user_profile = Email.objects.get(id=email_id)

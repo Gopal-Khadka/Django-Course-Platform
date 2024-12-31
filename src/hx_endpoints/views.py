@@ -10,19 +10,29 @@ from emails.forms import EmailForm
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 
+def is_added_to_cart_hx_view(request,course):
+    if not request.htmx:
+        return HttpResponse("Not a htmx request.")
+    email_id = request.session.get("email_id")
+    if email_id:
+        if services.is_course_in_cart(email_id,course):
+            return HttpResponse("Added")
+        return HttpResponse("Add to cart")
+
 
 def like_icon_hx_view(request: HttpRequest, instance, public_id):
     if not request.htmx:
         return HttpResponse("Not a htmx request.")
     instance_already_liked = False
     email_id = request.session.get("email_id")
-    if instance == "course":
-        instance_already_liked = services.is_course_liked(email_id, public_id)
-    else:
-        instance_already_liked = services.is_lesson_liked(email_id, public_id)
-    if instance_already_liked:
-        return render(request, "hx_endpoints/components/filled-like.html")
-    return render(request, "hx_endpoints/components/hollow-like.html")
+    if email_id:
+        if instance == "course":
+            instance_already_liked = services.is_course_liked(email_id, public_id)
+        else:
+            instance_already_liked = services.is_lesson_liked(email_id, public_id)
+        if instance_already_liked:
+            return render(request, "hx_endpoints/components/filled-like.html")
+        return render(request, "hx_endpoints/components/hollow-like.html")
 
 
 def like_course_hx_view(request: HttpRequest, course):
@@ -34,6 +44,17 @@ def like_course_hx_view(request: HttpRequest, course):
         if course_unliked:
             return render(request, "hx_endpoints/components/hollow-like.html")
         return render(request, "hx_endpoints/components/filled-like.html")
+
+
+def add_to_cart_hx_view(request, course):
+    if not request.htmx:
+        return HttpResponse("Not a htmx request")
+    user_email_id = request.session.get("email_id", None)
+    if user_email_id:
+        course_added = services.add_to_cart(user_email_id, public_id=course)
+        if course_added:
+            return HttpResponse("Added")
+        return HttpResponse("Add to cart")
 
 
 def like_lesson_hx_view(request: HttpRequest, lesson):
