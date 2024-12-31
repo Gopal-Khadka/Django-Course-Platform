@@ -10,7 +10,7 @@
 </h1>
 <!-- Trigger email sending event on form submission -->
 <!--  -->
-<form class="max-w-sm mx-auto space-y-4" hx-post="/hx/login/">
+<form class="max-w-sm mx-auto space-y-4" hx-post="{% url 'hx:login_form' %}">
   <p class="htmx-indicator">Processing....</p>
   {% csrf_token %}
   <div class="mb-5">
@@ -42,5 +42,5 @@
 >
   Are you sure to logout?
 </h1>
-<div hx-get="/hx/logout/" hx-trigger="revealed"></div>
+<div hx-get="{% url 'hx:logout_btn' %}" hx-trigger="revealed"></div>
 {% endif %}

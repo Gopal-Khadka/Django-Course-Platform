@@ -11,7 +11,7 @@ class EmailAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    filter_horizontal=["cart_items","favorites"]
+    filter_horizontal=["cart_items","favorites","lesson_favorites"]
 
 @admin.register(EmailVerificationEvent)
 class EmailVerificationAdmin(admin.ModelAdmin):

@@ -19,7 +19,7 @@ def verify_email_token_view(request: HttpRequest, token, *args, **kwargs):
             pass
         messages.error(request, msg)
         # return HttpResponse(msg)
-        return redirect("/hx/login")
+        return redirect('hx:login_form')
     messages.success(request, msg)
     request.session["email_id"] = str(email_obj.id)
 

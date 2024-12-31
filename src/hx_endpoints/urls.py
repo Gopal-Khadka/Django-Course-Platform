@@ -6,6 +6,7 @@ from .views import (
     like_lesson_hx_view,
 )
 
+app_name="hx"
 urlpatterns = [
     path("login/", email_token_login_view, name="login_form"),
     path("logout/", logout_btn_hx_view, name="logout_btn"),

@@ -14,6 +14,7 @@ def home(request, *args, **kwargs):
     Shows logout option to loggedin user.
     """
     template_name = "home.html"
+    print(request.session.get("email_id","None"))
     return render(request, template_name)
 
 def contact(request, *args, **kwargs):

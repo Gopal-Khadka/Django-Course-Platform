@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from courses.models import Course
+from courses.models import Course,Lesson
 
 User = get_user_model()
 
@@ -26,6 +26,10 @@ class UserProfile(models.Model):
     favorites = models.ManyToManyField(
         Course, related_name="favorite_users", blank=True
     )
+    lesson_favorites = models.ManyToManyField(
+        Lesson, related_name="lesson_favorite_users", blank=True
+    )
+
     def __str__(self):
         return f"{self.user.email}'s Profile"
 

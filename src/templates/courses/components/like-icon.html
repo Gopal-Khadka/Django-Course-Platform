@@ -1,6 +1,6 @@
 <button
   type="button"
-  hx-get="{% if item_type == 'course' %} /hx/like/c/{{item.public_id}} {% else %} /hx/like/l/{{item.public_id}} {% endif %}"
+  hx-get="{% if item_type == 'course' %} {% url 'hx:like_course' course=item.public_id %} {% else %} {% url 'hx:like_lesson' lesson=item.public_id %} {% endif %}"
   data-tooltip-target="tooltip-add-to-favorites"
   class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
 >

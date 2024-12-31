@@ -3,46 +3,34 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
 from django_htmx.http import HttpResponseClientRedirect
 
-from emails import services
-from emails.models import UserProfile, Email
-from courses.models import Course
+from emails import services as email_services
+from . import services
 from emails.forms import EmailForm
 
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
+
 
 def like_course_hx_view(request: HttpRequest, course):
     if not request.htmx:
         return HttpResponse("Not a htmx request")
     user_email_id = request.session.get("email_id", None)
     if user_email_id:
-        user_email = Email.objects.get(id=user_email_id)
-        user_profile, created = UserProfile.objects.get_or_create(user=user_email)
-        course_obj = Course.objects.get(public_id=course)
-        if user_profile.favorites.filter(id=course_obj.id).exists():
-            user_profile.favorites.remove(course_obj)
+        course_unliked = services.like_course(user_email_id, course)
+        if course_unliked:
             return HttpResponse("Removed")
-        else:
-            user_profile.favorites.add(course_obj)
-
-    return HttpResponse("Added")
+        return HttpResponse("Added")
 
 
-def like_lesson_hx_view(request: HttpRequest, course):
+def like_lesson_hx_view(request: HttpRequest, lesson):
     if not request.htmx:
         return HttpResponse("Not a htmx request")
     user_email_id = request.session.get("email_id", None)
     if user_email_id:
-        user_email = Email.objects.get(id=user_email_id)
-        user_profile, created = UserProfile.objects.get_or_create(user=user_email)
-        course_obj = Course.objects.get(public_id=course)
-        if user_profile.favorites.filter(id=course_obj.id).exists():
-            user_profile.favorites.remove(course_obj)
+        lesson_unliked = services.like_lesson(user_email_id, lesson)
+        if lesson_unliked:
             return HttpResponse("Removed")
-        else:
-            user_profile.favorites.add(course_obj)
-
-    return HttpResponse("Added")
+        return HttpResponse("Added")
 
 
 def logout_btn_hx_view(request: HttpRequest):
@@ -77,7 +65,7 @@ def email_token_login_view(request):
     context = {"form": form, "message": "", "show_form": not email_id_in_session}
     if form.is_valid():
         email_val = form.cleaned_data.get("email")
-        obj = services.start_verification_event(email_val)
+        obj = email_services.start_verification_event(email_val)
         context["form"] = EmailForm()
         context["message"] = (
             f"Success. Check the verification mail from {EMAIL_ADDRESS} in your inbox."
