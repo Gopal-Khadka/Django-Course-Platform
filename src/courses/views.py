@@ -51,12 +51,6 @@ def lesson_detail_view(
     # show email-required page for lesson(email-required) to visitors without email
     email_id_exists = request.session.get("email_id")
     if lesson_obj.requires_email and not email_id_exists:
-        # store session variable for redirecting vistor user
-        # when new user (no email) tries to access the course, they cant
-        # but after they click on verify link, they will be redirected to previously visited course lesson
-        request.session["next_url"] = (
-            request.path
-        )  # Refer to email.views.verify_email_token_view function
         return render(request, "courses/email-required.html")
 
     # template_name = "courses/purchase-required.html"

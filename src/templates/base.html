@@ -18,9 +18,10 @@
     {% include "base/js.html" %}
   </head>
   <body hx-headers='{"X-CSRFToken":"{{csrf_token}}"}' class="font-sans dark:bg-gray-900">
+      
     {% navbar request=request %}
+    <div hx-get="{% url "hx:show_toasts" %}" hx-swap="outerHTML" hx-trigger="load"></div>
     <main x-data>
-
       {%block content%} 
       {%endblock content%}
     </main>

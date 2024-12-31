@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import messages
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
 from django_htmx.http import HttpResponseClientRedirect
@@ -8,16 +9,21 @@ from . import services
 from emails.forms import EmailForm
 
 
-EMAIL_ADDRESS = settings.EMAIL_ADDRESS
+EMAIL_ADDRESS = settings.EMAIL_HOST_USER
 
-def is_added_to_cart_hx_view(request,course):
+
+def show_msg_toasts(request):
+    return render(request, "hx_endpoints/components/msg-toast.html")
+
+
+def is_added_to_cart_hx_view(request, course):
     if not request.htmx:
         return HttpResponse("Not a htmx request.")
     email_id = request.session.get("email_id")
     if email_id:
-        if services.is_course_in_cart(email_id,course):
+        if services.is_course_in_cart(email_id, course):
             return HttpResponse("Added")
-        return HttpResponse("Add to cart")
+    return HttpResponse("Add to cart")
 
 
 def like_icon_hx_view(request: HttpRequest, instance, public_id):
@@ -32,7 +38,7 @@ def like_icon_hx_view(request: HttpRequest, instance, public_id):
             instance_already_liked = services.is_lesson_liked(email_id, public_id)
         if instance_already_liked:
             return render(request, "hx_endpoints/components/filled-like.html")
-        return render(request, "hx_endpoints/components/hollow-like.html")
+    return render(request, "hx_endpoints/components/hollow-like.html")
 
 
 def like_course_hx_view(request: HttpRequest, course):
@@ -102,12 +108,11 @@ def email_token_login_view(request):
         email_val = form.cleaned_data.get("email")
         obj = email_services.start_verification_event(email_val)
         context["form"] = EmailForm()
-        context["message"] = (
-            f"Success. Check the verification mail from {EMAIL_ADDRESS} in your inbox."
+        messages.success(
+            request, f"Check the email from {EMAIL_ADDRESS} for verification link."
         )
-        # If form is valid, redirects to welcome page
-        # return HttpResponseClientRedirect("/welcome")
+        return HttpResponseClientRedirect("/")
     else:
-        print(form.errors)
+        print("Errors in login form: ", form.errors)
 
     return render(request, template_name, context)

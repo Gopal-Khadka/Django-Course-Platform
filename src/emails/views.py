@@ -23,9 +23,4 @@ def verify_email_token_view(request: HttpRequest, token, *args, **kwargs):
     messages.success(request, msg)
     request.session["email_id"] = str(email_obj.id)
 
-    # Refer to "courses.views.lesson_detail_view()"
-    next_url = request.session.get("next_url") or "/"
-    if not next_url.startswith("/"):
-        next_url = "/"
-
-    return redirect(next_url)
+    return redirect("/")

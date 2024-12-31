@@ -1,8 +1,4 @@
 {% if show_form %}
-
-{% if message %}
-<p class="text-lg text-center">{{message}}</p>
-{% else %}
 <h1
   class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
 >
@@ -11,7 +7,9 @@
 <!-- Trigger email sending event on form submission -->
 <!--  -->
 <form class="max-w-sm mx-auto space-y-4" hx-post="{% url 'hx:login_form' %}">
-  <p class="htmx-indicator">Processing....</p>
+  <p class="htmx-indicator text-sm font-medium text-gray-900 dark:text-white">
+    Processing....
+  </p>
   {% csrf_token %}
   <div class="mb-5">
     {% if form.email.errors %}
@@ -35,7 +33,7 @@
     Submit
   </button>
 </form>
-{% endif %} {% else %}
+{% else %}
 <!-- Render logout btn-->
 <h1
   class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-3"
