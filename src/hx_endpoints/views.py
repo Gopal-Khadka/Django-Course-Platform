@@ -10,6 +10,16 @@ from emails.forms import EmailForm
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 
+def like_icon_hx_view(request:HttpRequest,instance):
+    if not request.htmx:
+        return HttpResponse("Not a htmx request.")
+    if instance=="course":
+        return render(request,"hx_endpoints/components/filled-like.html")
+    else:
+        return render(request,"hx_endpoints/components/hollow-like.html")
+
+
+
 
 def like_course_hx_view(request: HttpRequest, course):
     if not request.htmx:

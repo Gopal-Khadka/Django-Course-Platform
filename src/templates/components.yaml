@@ -2,4 +2,3 @@ components:
   hero: "base/components/hero-section.html"
   course_card: "courses/components/course-card.html"
   navbar: "base/components/navbar.html"
-  favorite_icon: "courses/components/like-icon.html"
