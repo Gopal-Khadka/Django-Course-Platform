@@ -1,5 +1,3 @@
-
-{{item_type}}
 <button
   type="button"
   hx-get="{% if item_type == 'course' %} /hx/like/c/{{item.public_id}} {% else %} /hx/like/l/{{item.public_id}} {% endif %}"

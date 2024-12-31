@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     # my apps
     "courses",
     "emails",
+    "hx_endpoints",
 ]
 
 MIDDLEWARE = [
@@ -81,8 +82,8 @@ MIDDLEWARE = [
 # Django-tailwind config
 TAILWIND_APP_NAME = "theme"
 if DEBUG:
-    INSTALLED_APPS.append("django_browser_reload")
-    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
+    # INSTALLED_APPS.append("django_browser_reload")
+    # MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
     INTERNAL_IPS = [
         "127.0.0.1",
     ]
